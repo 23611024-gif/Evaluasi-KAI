@@ -1,0 +1,530 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Evaluasi Pengajar | KAI</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <style>
+:root {
+  --primary:#2f2a78;
+  --primary2:#3a348c;
+  --accent:#b75b4a;
+  --card:#ffffff;
+  --text:#263238;
+}
+
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
+
+body{
+  font-family:"Segoe UI",Arial,sans-serif;
+  background:linear-gradient(180deg,var(--primary),var(--primary2));
+  color:var(--text);
+  position:relative;
+  overflow-x:hidden;
+}
+
+/* ===== HEADER ===== */
+.header{
+  color:#fff;
+  padding:60px 20px;
+  text-align:center;
+}
+
+.header h1{
+  font-size:34px;
+  margin-bottom:10px;
+}
+
+.header p{
+  font-size:16px;
+  opacity:0.9;
+}
+
+/* ===== CARD ===== */
+.container{
+  max-width:760px;
+  background:rgba(255,255,255,0.96);
+  backdrop-filter:blur(12px);
+  margin:-40px auto 60px;
+  padding:35px;
+  border-radius:24px;
+  box-shadow:0 30px 60px rgba(0,0,0,0.25);
+  position:relative;
+  z-index:2;
+}
+
+.hidden{display:none;}
+
+.section{
+  margin-bottom:35px;
+}
+
+.section-title{
+  font-size:18px;
+  font-weight:600;
+  margin-bottom:15px;
+  border-left:5px solid #1565c0;
+  padding-left:12px;
+  color:#0b3c8a;
+}
+
+label{
+  font-weight:600;
+  margin-top:15px;
+  display:block;
+}
+
+input[type="text"],select,textarea{
+  width:100%;
+  margin-top:6px;
+  padding:12px 14px;
+  border-radius:12px;
+  border:1px solid #ddd;
+  font-size:14px;
+}
+
+button{
+  width:100%;
+  margin-top:20px;
+  padding:14px;
+  font-size:16px;
+  border-radius:14px;
+  border:none;
+  cursor:pointer;
+  font-weight:600;
+  transition:0.3s;
+}
+
+#loginPage button{
+  background:#1565c0;
+  color:white;
+}
+
+#loginPage button:hover{
+  background:#0d47a1;
+  transform:translateY(-2px);
+}
+
+button[type="submit"]{
+  background:#0b3c8a;
+  color:white;
+}
+
+.logout{
+  background:#000;
+  color:white;
+}
+
+.tanggal-box{
+  background:#eef3fb;
+  font-weight:600;
+  text-align:center;
+}
+
+/* ===== BULATAN ORANGE ===== */
+.pattern{
+  position:fixed;
+  width:100%;
+  height:100%;
+  top:0;
+  left:0;
+  z-index:1;
+  pointer-events:none;
+}
+
+.pattern span{
+  position:absolute;
+  background:var(--accent);
+  border-radius:50%;
+  opacity:0.8;
+}
+
+/* kanan */
+.pattern span:nth-child(1){width:40px;height:40px;top:10%;right:8%;}
+.pattern span:nth-child(2){width:25px;height:25px;top:25%;right:15%;}
+.pattern span:nth-child(3){width:35px;height:35px;top:45%;right:6%;}
+.pattern span:nth-child(4){width:20px;height:20px;top:65%;right:18%;}
+.pattern span:nth-child(5){width:30px;height:30px;bottom:10%;right:10%;}
+
+/* kiri */
+.pattern span:nth-child(6){width:35px;height:35px;top:15%;left:8%;}
+.pattern span:nth-child(7){width:20px;height:20px;top:30%;left:18%;}
+.pattern span:nth-child(8){width:28px;height:28px;top:55%;left:6%;}
+.pattern span:nth-child(9){width:22px;height:22px;top:75%;left:15%;}
+.pattern span:nth-child(10){width:30px;height:30px;bottom:12%;left:10%;}
+/* ===== SUCCESS OVERLAY ===== */
+.overlay{
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  background:rgba(0,0,0,0.6);
+  backdrop-filter:blur(6px);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  z-index:9999;
+}
+
+.success-card{
+  background:white;
+  padding:60px 50px;
+  border-radius:25px;
+  text-align:center;
+  box-shadow:0 30px 60px rgba(0,0,0,0.3);
+}
+
+.success-card h2{
+  margin-top:20px;
+  color:#2f2a78;
+}
+
+.success-card p{
+  margin:15px 0 30px;
+  color:#555;
+}
+
+.success-card button{
+  background:#1565c0;
+  color:white;
+  padding:12px 25px;
+  border-radius:10px;
+  border:none;
+  cursor:pointer;
+}
+
+.checkmark{
+  width:90px;
+  height:90px;
+  border-radius:50%;
+  background:#4caf50;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:42px;
+  color:white;
+  margin:auto;
+}
+
+</style>
+
+    </style>
+  </head>
+
+  <body>
+    <div class="pattern">
+  <span></span><span></span><span></span><span></span><span></span>
+  <span></span><span></span><span></span><span></span><span></span>
+</div>
+    <div class="header">
+      <h1>Evaluasi Kepuasan Pengajar</h1>
+      <p>Diklat Pengatur Perjalanan Kereta Api Setempat<br />Angkatan I Tahun 2026</p>
+    </div>
+
+    <!-- LOGIN -->
+    <div class="container" id="loginPage">
+      <div class="section">
+        <div class="section-title">Tanggal Pengisian</div>
+        <input type="text" id="tanggalLogin" readonly class="tanggal-box" />
+      </div>
+
+      <label>Nama Peserta</label>
+      <input type="text" id="namaPeserta" placeholder="Masukkan nama Anda" />
+      <label>NIPP</label>
+     <input type="text"
+       id="NIPPPeserta"
+       placeholder="Masukkan NIPP Anda"
+       inputmode="numeric"
+       pattern="[0-9]*" />
+<div id="nippError" style="color:red; font-size:13px; margin-top:5px;"></div>
+      <button onclick="login()">Masuk</button>
+      <button type="button" onclick="window.location.href='index.html'">Kembali</button>
+    </div>
+
+    <!-- FORM -->
+    <div class="container hidden" id="formPage">
+      <div class="section">
+        <div class="section-title">Identitas</div>
+        <p><strong>Peserta:</strong> <span id="pesertaNama"></span></p>
+        <p><strong>NIPP:</strong> <span id="pesertaNIPP"></span></p>
+      </div>
+
+      <form id="evaluasiForm"
+action="https://script.google.com/macros/s/AKfycbwjFPqB6JkoCMPGemCnhDbRrU4SpoD0WtezzReXu6O9DuB3FbI7tCFCaRLtcyjOY3LD/exec"
+method="POST">
+        <input type="hidden" name="nama_peserta" id="namaHidden" />
+        <input type="hidden" name="pengajar_final" id="pengajarHidden" />
+        <input type="hidden" name="tanggal_pengisian" id="tanggalHidden" />
+
+        <div class="section">
+          <div class="section-title">Pengajar</div>
+
+          <div class="radio-group">
+            <label><input type="radio" name="pengajar" value="Hari Supriyono" required> Hari Supriyono</label>
+            <label><input type="radio" name="pengajar" value="Ramlis"> Ramlis</label>
+            <label><input type="radio" name="pengajar" value="Nuhadi Arief Yusran T"> Nuhadi Arief Yusran T</label>
+            <label><input type="radio" name="pengajar" value="Muklisin Zahid Romsyuruqi"> Muklisin Zahid Romsyuruqi</label>
+            <label><input type="radio" name="pengajar" value="Joko Raharjo"> Joko Raharjo</label>
+            <label><input type="radio" name="pengajar" value="Moh. Jaenudin"> Moh. Jaenudin</label>
+            <label><input type="radio" name="pengajar" value="Roeslan"> Roeslan</label>
+            <label><input type="radio" name="pengajar" value="Iwan Dudung"> Iwan Dudung</label>
+            <label><input type="radio" id="lainnyaRadio" name="pengajar" value="LAINNYA"> Yang lain</label>
+            <input type="text" id="pengajarLain" class="readonly" placeholder="Isi nama pengajar lain" />
+          </div>
+        </div>
+
+<div class="section">
+  <div class="section-title">Mata Latih</div>
+  <select name="mata_latih">
+          <option value="">-- Pilih --</option>
+          <option>Identitas dan Budaya Perusahaan</option>
+          <option>Wawasan Kebangsaan</option>
+          <option>Proses Bisnis Unit Direktorat Operasi</option>
+          <option>Peraturan Semboyan (PD.3)</option>
+          <option>Penguasaan Stasiun Tingkat Dasar</option>
+          <option>Prosedur Buka/Tutup Stasiun dan Stasiun Non Operasi</option>
+          <option>Prinsip Operasi KA</option>
+          <option>Peraturan Perjalanan Kereta Api</option>
+          <option>Pengaturan Perjalanan Kereta Api Sesuai Peraturan Perjalanan</option>
+          <option>Pengaturan Perjalanan Kereta Api Pada Saat Kondisi Tidak Sesuai Peraturan Perjalanan</option>
+          <option>Pengaturan Langsiran</option>
+          <option>Pengaturan KA Kerja, Perawatan Jalan Rel, Lori, dan KA Inspeksi</option>
+          <option>Pengoperasian KA Rangkaian Panjang di Sumatera Bagian Selatan</option>
+          <option>Teknik Pembuatan Peraturan Perjalanan KA</option>
+          <option>Pengendalian Perjalanan Kereta Api</option>
+          <option>Pengendalian Sarana Kereta Api</option>
+          <option>Pelayanan Peralatan Persinyalan</option>
+          <option>Pelayanan Warta Operasi</option>
+          <option>Gangguan Operasional KA</option>
+          <option>Standart Kompetensi dan Prosedur Sertifikasi</option>
+          <option>Pedoman Tunjuk Sebut bagi Pengatur Pejalanan Kereta Api</option>
+          <option>Peraturan Perkeretaapian tentang Pengoperasian Prasarana</option>
+          <option>Pengetahuan Sarana Kereta Api</option>
+          <option>Pengetahuan Jalan Rel dan Jembatan</option>
+          <option>Pengetahuan Peralatan Sinyal Mekanik dan Elektrik</option>
+          <option>Pengetahuan Peralatan Telekomunikasi</option>
+          <option>Pelayanan Prima dan Standart Pelayanan</option>
+          <option>Pelayanan Angkutan Penumpang</option>
+          <option>Pelayanan Angkutan Barang</option>
+          <option>Psikologi dan Leadership PPKA</option>
+          <option>Basic Safety</option>
+          <option>Pengenalan Aplikasi PRANOPKA</option>
+        </select>
+
+        <div class="section">
+          <div class="section-title">Penilaian</div>
+
+        <label>Pengetahuan Pengajar Terhadap Materi yang Diajarkan</label>
+        <select name="nilai_pengetahuan" required>
+          <option value="">-- Pilih --</option>
+          <option>Sangat Tidak Puas</option>
+          <option>Tidak Puas</option>
+          <option>Cukup Puas</option>
+          <option>Puas</option>
+          <option>Sangat Puas</option>
+        </select>
+
+        <label>Kemampuan dalam Menjelaskan Materi Pelajaran</label>
+        <select name="nilai_penjelasan" required>
+          <option value="">-- Pilih --</option>
+          <option>Sangat Tidak Puas</option>
+          <option>Tidak Puas</option>
+          <option>Cukup Puas</option>
+          <option>Puas</option>
+          <option>Sangat Puas</option>
+        </select>
+
+        <label>Kemampuan Melibatkan Partisipasi Peserta dalam Proses Pembelajaran</label>
+        <select name="nilai_partisipasi" required>
+          <option value="">-- Pilih --</option>
+          <option>Sangat Tidak Puas</option>
+          <option>Tidak Puas</option>
+          <option>Cukup Puas</option>
+          <option>Puas</option>
+          <option>Sangat Puas</option>
+        </select>
+
+        <label>Kemampuan dalam Menanggapi Permasalahan dan Pertanyaan Peserta</label>
+        <select name="nilai_tanya_jawab" required>
+          <option value="">-- Pilih --</option>
+          <option>Sangat Tidak Puas</option>
+          <option>Tidak Puas</option>
+          <option>Cukup Puas</option>
+          <option>Puas</option>
+          <option>Sangat Puas</option>
+        </select>
+
+        <label>Kemampuan Mengendalikan Penggunaan Waktu</label>
+        <select name="nilai_waktu" required>
+          <option value="">-- Pilih --</option>
+          <option>Sangat Tidak Puas</option>
+          <option>Tidak Puas</option>
+          <option>Cukup Puas</option>
+          <option>Puas</option>
+          <option>Sangat Puas</option>
+        </select>
+
+        <label>Kemampuan untuk Menguasai Ruang Kelas</label>
+        <select name="nilai_kelas" required>
+          <option value="">-- Pilih --</option>
+          <option>Sangat Tidak Puas</option>
+          <option>Tidak Puas</option>
+          <option>Cukup Puas</option>
+          <option>Puas</option>
+          <option>Sangat Puas</option>
+        </select>
+
+        <label>Pengajar Menyusun Program Pembelajaran Secara Terstruktur dan Sistematis</label>
+        <select name="nilai_struktur" required>
+          <option value="">-- Pilih --</option>
+          <option>Sangat Tidak Puas</option>
+          <option>Tidak Puas</option>
+          <option>Cukup Puas</option>
+          <option>Puas</option>
+          <option>Sangat Puas</option>
+        </select>
+
+        <label>Kemampuan Pengajar untuk Memotivasi Peserta</label>
+        <select name="nilai_motivasi" required>
+          <option value="">-- Pilih --</option>
+          <option>Sangat Tidak Puas</option>
+          <option>Tidak Puas</option>
+          <option>Cukup Puas</option>
+          <option>Puas</option>
+          <option>Sangat Puas</option>
+        </select>
+
+        <label>Penggunaan Media untuk Kelancaran Pembelajaran</label>
+        <select name="nilai_media" required>
+          <option value="">-- Pilih --</option>
+          <option>Sangat Tidak Puas</option>
+          <option>Tidak Puas</option>
+          <option>Cukup Puas</option>
+          <option>Puas</option>
+          <option>Sangat Puas</option>
+        </select>
+
+        <label>Bentuk dan Metode Evaluasi yang Digunakan</label>
+        <select name="nilai_evaluasi" required>
+          <option value="">-- Pilih --</option>
+          <option>Sangat Tidak Puas</option>
+          <option>Tidak Puas</option>
+          <option>Cukup Puas</option>
+          <option>Puas</option>
+          <option>Sangat Puas</option>
+        </select>
+
+         <div class="section">
+          <div class="section-title">Umpan Balik</div>
+
+          <label>Kritik dan Saran</label>
+          <textarea name="kritik" rows="4"></textarea>
+
+          <label>Inspirasi yang Anda Dapatkan</label>
+          <textarea name="inspirasi" rows="4"></textarea>
+        </div>
+
+        <button type="submit">Kirim Evaluasi</button>
+        <button type="button" class="logout" onclick="location.reload()">Kembali</button>
+      </form>
+    </div>
+
+    <!-- SUCCESS -->
+    <div class="overlay" id="successOverlay">
+      <div class="success-card">
+        <div class="checkmark">✔</div>
+        <h2>Evaluasi Berhasil Dikirim</h2>
+        <p>Terima kasih atas partisipasi Anda.</p>
+        <button onclick="location.reload()">Isi Evaluasi Lagi</button>
+      </div>
+    </div>
+
+    <script>
+document.addEventListener("DOMContentLoaded", function () {
+
+  // ===== TANGGAL OTOMATIS =====
+  const today = new Date();
+  const formattedDate = today.toLocaleDateString("id-ID", {
+    weekday: "long",
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
+
+  document.getElementById("tanggalLogin").value = formattedDate;
+  document.getElementById("tanggalHidden").value = formattedDate;
+
+  // ===== LOGIN =====
+  window.login = function () {
+    const nama = document.getElementById("namaPeserta").value.trim();
+    const nipp = document.getElementById("NIPPPeserta").value.trim();
+
+    if (!nama) {
+      alert("Nama peserta wajib diisi");
+      return;
+    }
+
+    if (!nipp) {
+      alert("NIPP wajib diisi");
+      return;
+    }
+
+    if (!/^[0-9]+$/.test(nipp)) {
+      alert("NIPP harus berupa angka saja!");
+      return;
+    }
+
+    document.getElementById("loginPage").classList.add("hidden");
+    document.getElementById("formPage").classList.remove("hidden");
+
+    document.getElementById("pesertaNama").innerText = nama;
+    document.getElementById("pesertaNIPP").innerText = nipp;
+    document.getElementById("namaHidden").value = nama;
+  };
+
+  // ===== SUBMIT =====
+  const form = document.getElementById("evaluasiForm");
+
+  form.addEventListener("submit", function (event) {
+    event.preventDefault();
+
+    const pengajar = document.querySelector("input[name='pengajar']:checked");
+    const pengajarLain = document.getElementById("pengajarLain");
+
+    if (!pengajar) {
+      alert("Pilih nama pengajar");
+      return;
+    }
+
+    if (pengajar.value === "LAINNYA") {
+      if (!pengajarLain.value.trim()) {
+        alert("Isi nama pengajar lain");
+        return;
+      }
+      document.getElementById("pengajarHidden").value = pengajarLain.value;
+    } else {
+      document.getElementById("pengajarHidden").value = pengajar.value;
+    }
+
+    fetch(form.action, {
+      method: "POST",
+      mode: "no-cors",
+      body: new FormData(form)
+    })
+    .then(function () {
+      document.getElementById("successOverlay").style.display = "flex";
+    })
+    .catch(function () {
+      alert("Terjadi kesalahan saat mengirim data.");
+    });
+
+  });
+
+});
+</script>

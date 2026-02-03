@@ -1,0 +1,180 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Dashboard Evaluasi Pengajar</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
+
+    <style>
+      :root {
+        --primary: #2f2a78;
+        --primary2: #3a348c;
+        --accent: #b75b4a;
+        --card: rgba(255, 255, 255, 0.95);
+      }
+
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        font-family: "Segoe UI", Arial, sans-serif;
+        min-height: 100vh;
+        background: linear-gradient(180deg, var(--primary), var(--primary2));
+        padding: 40px;
+      }
+
+      h1 {
+        color: white;
+        margin-bottom: 25px;
+      }
+
+      .card {
+        background: var(--card);
+        backdrop-filter: blur(10px);
+        padding: 30px;
+        border-radius: 20px;
+        box-shadow: 0 25px 50px rgba(0, 0, 0, 0.25);
+        margin-bottom: 30px;
+      }
+
+      canvas {
+        max-height: 600px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <h1>Dashboard Evaluasi Pengajar</h1>
+
+    <div class="card">
+      <h3>Total Responden: <span id="total"></span></h3>
+    </div>
+
+    <div class="card">
+      <canvas id="chart"></canvas>
+    </div>
+
+    <script>
+      const scriptURL = "https://script.google.com/macros/s/AKfycbwdk_jpH919zDCD51JL7AkEfZdq0hkOeehFQfyWhM_OdHB_E8Sl_noUde7odmd_pw3i/exec";
+
+      fetch(scriptURL)
+        .then((res) => res.json())
+        .then((data) => {
+          document.getElementById("total").innerText = data.length;
+
+          let rekap = {};
+
+          data.forEach((row) => {
+            if (!row.pengajar_final) return;
+
+            let mata = row.mata_latih ? row.mata_latih : "-";
+            let key = row.pengajar_final + " | " + mata;
+
+            if (!rekap[key]) {
+              rekap[key] = { total: 0, count: 0 };
+            }
+
+            let nilaiList = [row.nilai_pengetahuan, row.nilai_penjelasan, row.nilai_partisipasi, row.nilai_tanya_jawab, row.nilai_waktu, row.nilai_kelas, row.nilai_struktur, row.nilai_motivasi, row.nilai_media, row.nilai_evaluasi];
+
+            let totalNilai = 0;
+            let jumlah = 0;
+
+            nilaiList.forEach((n) => {
+              let angka = convertNilai(n);
+              if (angka > 0) {
+                totalNilai += angka;
+                jumlah++;
+              }
+            });
+
+            if (jumlah > 0) {
+              let rata = totalNilai / jumlah;
+              rekap[key].total += rata;
+              rekap[key].count += 1;
+            }
+          });
+
+          let result = [];
+
+          for (let k in rekap) {
+            result.push({
+              label: k,
+              value: rekap[k].total / rekap[k].count,
+            });
+          }
+
+          // SORTING dari tertinggi
+          result.sort((a, b) => b.value - a.value);
+
+          const labels = result.map((r) => r.label);
+          const values = result.map((r) => r.value.toFixed(2));
+
+          // Gradient warna
+          const ctx = document.getElementById("chart").getContext("2d");
+
+          // Warna dinamis berdasarkan nilai
+          const colors = result.map((r) => (r.value < 3.5 ? "#e53935" : "#1565c0"));
+
+          new Chart(ctx, {
+            type: "bar",
+            data: {
+              labels: labels,
+              datasets: [
+                {
+                  data: values,
+                  backgroundColor: colors,
+                  borderRadius: 12,
+                  barThickness: 18,
+                },
+              ],
+            },
+
+            plugins: [ChartDataLabels],
+            options: {
+              indexAxis: "y",
+              responsive: true,
+              plugins: {
+                legend: { display: false },
+                datalabels: {
+                  anchor: "end",
+                  align: "right",
+                  color: "#000",
+                  font: { weight: "bold" },
+                  formatter: (value) => value,
+                },
+              },
+              scales: {
+                x: {
+                  beginAtZero: true,
+                  max: 5,
+                  grid: {
+                    color: "rgba(0,0,0,0.05)",
+                  },
+                },
+                y: {
+                  grid: { display: false },
+                },
+              },
+            },
+          });
+        })
+        .catch(() => {
+          alert("Terjadi kesalahan mengambil data.");
+        });
+
+      function convertNilai(text) {
+        if (text === "Sangat Tidak Puas") return 1;
+        if (text === "Tidak Puas") return 2;
+        if (text === "Cukup Puas") return 3;
+        if (text === "Puas") return 4;
+        if (text === "Sangat Puas") return 5;
+        return 0;
+      }
+    </script>
+  </body>
+</html>

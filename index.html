@@ -1,0 +1,303 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Sistem Evaluasi</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <style>
+      :root {
+        --primary: #2f2a78;
+        --primary2: #3a348c;
+        --accent: #b75b4a;
+        --btn: #1565c0;
+      }
+
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        font-family: "Segoe UI", Arial, sans-serif;
+        height: 100vh;
+        background: linear-gradient(180deg, var(--primary) 0%, var(--primary2) 100%);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        overflow: hidden;
+        position: relative;
+      }
+
+      /* ===== CARD ===== */
+      .card {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        padding: 55px 50px;
+        border-radius: 28px;
+        width: 380px;
+        text-align: center;
+        box-shadow:
+          0 40px 80px rgba(0, 0, 0, 0.35),
+          0 0 0 1px rgba(255, 255, 255, 0.1);
+        z-index: 2;
+        animation: fadeUp 0.5s ease;
+      }
+
+      .card h2 {
+        margin-bottom: 35px;
+        font-size: 28px;
+        letter-spacing: 0.5px;
+      }
+
+      /* ===== BUTTON ===== */
+      button {
+        width: 100%;
+        padding: 14px;
+        margin-top: 18px;
+        border: none;
+        border-radius: 14px;
+        cursor: pointer;
+        font-size: 15px;
+        font-weight: 600;
+        transition: 0.3s ease;
+      }
+
+      .peserta {
+        background: linear-gradient(135deg, #1976d2, #1565c0);
+        color: white;
+        box-shadow: 0 10px 25px rgba(21, 101, 192, 0.4);
+      }
+
+      .peserta:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 15px 35px rgba(21, 101, 192, 0.6);
+      }
+
+      .admin {
+        background: #111;
+        color: white;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+      }
+
+      .admin:hover {
+        transform: translateY(-3px);
+        background: #000;
+      }
+
+      /* ===== ORANGE PATTERN MENYEBAR ===== */
+      .pattern {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: 1;
+      }
+
+      .pattern span {
+        position: absolute;
+        background: #b75b4a;
+        border-radius: 50%;
+        opacity: 0.85;
+      }
+
+      /* ====== KANAN ====== */
+      .pattern span:nth-child(1) {
+        width: 30px;
+        height: 30px;
+        top: 8%;
+        right: 5%;
+      }
+      .pattern span:nth-child(2) {
+        width: 22px;
+        height: 22px;
+        top: 18%;
+        right: 15%;
+      }
+      .pattern span:nth-child(3) {
+        width: 35px;
+        height: 35px;
+        top: 28%;
+        right: 8%;
+      }
+      .pattern span:nth-child(4) {
+        width: 18px;
+        height: 18px;
+        top: 38%;
+        right: 20%;
+      }
+      .pattern span:nth-child(5) {
+        width: 40px;
+        height: 40px;
+        top: 48%;
+        right: 5%;
+      }
+      .pattern span:nth-child(6) {
+        width: 26px;
+        height: 26px;
+        top: 58%;
+        right: 18%;
+      }
+      .pattern span:nth-child(7) {
+        width: 32px;
+        height: 32px;
+        top: 68%;
+        right: 10%;
+      }
+      .pattern span:nth-child(8) {
+        width: 20px;
+        height: 20px;
+        top: 78%;
+        right: 25%;
+      }
+      .pattern span:nth-child(9) {
+        width: 28px;
+        height: 28px;
+        bottom: 15%;
+        right: 8%;
+      }
+      .pattern span:nth-child(10) {
+        width: 24px;
+        height: 24px;
+        bottom: 5%;
+        right: 20%;
+      }
+
+      /* ====== KIRI ====== */
+      .pattern span:nth-child(11) {
+        width: 26px;
+        height: 26px;
+        top: 12%;
+        left: 8%;
+      }
+      .pattern span:nth-child(12) {
+        width: 18px;
+        height: 18px;
+        top: 22%;
+        left: 18%;
+      }
+      .pattern span:nth-child(13) {
+        width: 34px;
+        height: 34px;
+        top: 32%;
+        left: 6%;
+      }
+      .pattern span:nth-child(14) {
+        width: 22px;
+        height: 22px;
+        top: 42%;
+        left: 20%;
+      }
+      .pattern span:nth-child(15) {
+        width: 38px;
+        height: 38px;
+        top: 55%;
+        left: 10%;
+      }
+      .pattern span:nth-child(16) {
+        width: 20px;
+        height: 20px;
+        top: 65%;
+        left: 25%;
+      }
+      .pattern span:nth-child(17) {
+        width: 30px;
+        height: 30px;
+        top: 75%;
+        left: 8%;
+      }
+      .pattern span:nth-child(18) {
+        width: 16px;
+        height: 16px;
+        bottom: 18%;
+        left: 20%;
+      }
+      .pattern span:nth-child(19) {
+        width: 24px;
+        height: 24px;
+        bottom: 8%;
+        left: 12%;
+      }
+      .pattern span:nth-child(20) {
+        width: 28px;
+        height: 28px;
+        bottom: 3%;
+        left: 25%;
+      }
+
+      /* ====== TENGAH HALUS (lebih kecil & opacity lebih rendah) ====== */
+      .pattern span:nth-child(21) {
+        width: 14px;
+        height: 14px;
+        top: 20%;
+        left: 45%;
+        opacity: 0.5;
+      }
+      .pattern span:nth-child(22) {
+        width: 12px;
+        height: 12px;
+        top: 60%;
+        left: 55%;
+        opacity: 0.4;
+      }
+      .pattern span:nth-child(23) {
+        width: 16px;
+        height: 16px;
+        bottom: 30%;
+        left: 50%;
+        opacity: 0.5;
+      }
+      .pattern span:nth-child(24) {
+        width: 10px;
+        height: 10px;
+        top: 45%;
+        left: 60%;
+        opacity: 0.3;
+      }
+      .pattern span:nth-child(25) {
+        width: 12px;
+        height: 12px;
+        bottom: 40%;
+        left: 40%;
+        opacity: 0.4;
+      }
+
+      /* ANIMATION */
+      @keyframes fadeUp {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="card">
+      <h2>Sistem Evaluasi</h2>
+      <button class="peserta" onclick="masukPeserta()">Masuk sebagai Peserta</button>
+      <button class="admin" onclick="tampilkanAdmin()">Masuk sebagai Admin</button>
+    </div>
+
+    <!-- BULATAN MENYEBAR -->
+    <div class="pattern">
+      <!-- 25 bulatan -->
+      <span></span><span></span><span></span><span></span><span></span> <span></span><span></span><span></span><span></span><span></span> <span></span><span></span><span></span><span></span><span></span> <span></span><span></span
+      ><span></span><span></span><span></span> <span></span><span></span><span></span><span></span><span></span>
+    </div>
+
+    <script>
+      function masukPeserta() {
+        window.location.href = "Peserta.html";
+      }
+
+      function tampilkanAdmin() {
+        window.location.href = "login_admin.html";
+      }
+    </script>
+  </body>
+</html>
